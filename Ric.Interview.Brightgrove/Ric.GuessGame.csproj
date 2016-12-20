@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{71406404-8C5F-420C-961A-DD430622C949}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ric.Interview.Brightgrove.FruitBasket</RootNamespace>
+    <AssemblyName>Ric.Interview.Brightgrove.FruitBasket</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorythms\CheatPippingGuessHistory.cs" />
+    <Compile Include="Algorythms\ICheatingAlgorithm.cs" />
+    <Compile Include="Exceptions\AllValuesGuessedException.cs" />
+    <Compile Include="Exceptions\IncorrectAbstractFactorySettingsException.cs" />
+    <Compile Include="Extentions\PlayerExtention.cs" />
+    <Compile Include="Factories\CheaterPlayerFactory.cs" />
+    <Compile Include="Factories\GameFactory.cs" />
+    <Compile Include="Models\GuessGameAwaitableFailRuler.cs" />
+    <Compile Include="Models\GuessGameInlineDelayRuler.cs" />
+    <Compile Include="Models\GuessGameRulerAre.cs" />
+    <Compile Include="Models\GuessGameReturnTimeout.cs" />
+    <Compile Include="Models\GuessGameAre.cs" />
+    <Compile Include="Models\GuessGameAwaitableFail.cs" />
+    <Compile Include="Models\GameOutput.cs" />
+    <Compile Include="Models\ICancellableGame.cs" />
+    <Compile Include="Models\ICheaterPlayer.cs" />
+    <Compile Include="Models\IGameResolver.cs" />
+    <Compile Include="Models\IGameRules.cs" />
+    <Compile Include="Models\IGuessGame.cs" />
+    <Compile Include="Models\IGuessGameEvents.cs" />
+    <Compile Include="Models\IGuessGamePlayer.cs" />
+    <Compile Include="Models\IMaintenanceInfo.cs" />
+    <Compile Include="Models\IParserPlayer.cs" />
+    <Compile Include="Factories\PlayerFactory.cs" />
+    <Compile Include="Factories\PlayerFactoryParserJson.cs" />
+    <Compile Include="Models\MaintenanceInfo.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ILogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
