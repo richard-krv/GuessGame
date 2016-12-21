@@ -1,89 +1,75 @@
 ﻿using Ric.Interview.Brightgrove.FruitBasket.Factories;
+using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
 using Ric.Interview.Brightgrove.FruitBasket.Models;
 using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
 {
     class Program
     {
-        private static string InputJson;
+        private const string InputJson = @"{ ""players"" : [
+                { ""Name"" : ""John"", ""Type"" : ""Random"" },
+                { ""Name"" : ""Paul"", ""Type"" : ""Memory"" },
+                { ""Name"" : ""Webb"", ""Type"" : ""Thorough"" },
+                { ""Name"" : ""Sack"", ""Type"" : ""Cheater"" },
+                { ""Name"" : ""Rick"", ""Type"" : ""ThoroughCheater"" }
+            ]}";
 
         static CancellationTokenSource ts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-
+        static ILogger logger;
         static void Main(string[] args)
         {
+            Console.WriteLine("Press any key to start game (AI mode)");
+            Console.ReadKey();
+
+            logger = new Logger();
             try
             {
-                ts.Token.ThrowIfCancellationRequested();
-
-                for (int i = 0; true; i++)
-                {
-                    OutputWriteLine("I={0} ", i);
-                    Wait(3000, i);
-                    Task.Factory.StartNew(() => Task.Delay(1000));
-                }
+                using (var h = GetAwaitableFailHost()
+                               //GetInlineDelayHost()
+                    )
+                    h.StartGame();
             }
             catch (Exception ex)
-            { }
+            {
+                logger.AddLogItem("{0} {1}", ex.Message, ex.StackTrace);
+            }
             finally
             {
                 Console.ReadKey();
             }
         }
 
-        static async void Wait(int timeout, int threadId)
+        public static IGameAIHost GetInlineDelayHost()
         {
-            ts.Token.ThrowIfCancellationRequested();
-
-            await Task.Factory.StartNew(() => Task.Delay(timeout), ts.Token)
-                .ContinueWith(t => OutputWriteLine("thread finished: {0}", threadId));
+            return new GuessGameInlineDelayHost(
+                    GetGameRules(),
+                    GetGameResolver(),
+                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                    logger
+                    );
         }
 
-        static void Main2(string[] args)
+        public static IGameAIHost GetAwaitableFailHost()
         {
-            var log = new Logger();
-
-            var gr = new GuessGameRulerAre(
-                GetGameRules(),
-                GetGameResolver(),
-                PlayerFactoryParserJson.NewJsonPlayer(InputJson),
-                log);
-
-            try
-            {
-                gr.StartGame();
-            }
-            catch (Exception e)
-            {
-                OutputWriteLine(e.Message, e.StackTrace);
-                var ex = e.InnerException;
-                while (ex != null)
-                {
-                    OutputWriteLine(ex.Message, ex.StackTrace);
-                    ex = ex.InnerException;
-                }
-            }
-
-            OutputWriteLine("Is cancellation requested: {0}", gr.GameState.IsCancellationRequested);
-
-            foreach (var p in gr.game.Output.GuessHistory)
-                OutputWriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
+            return new GuessGameAwaitableFailHost(
+                    GetGameRules(),
+                    GetGameResolver(),
+                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                    logger
+                    );
         }
 
         private static IGameResolver GetGameResolver()
         {
-            throw new NotImplementedException();
+            return new Resolver();
         }
 
         private static IGameRules GetGameRules()
         {
-            throw new NotImplementedException();
+            return new Rules();
         }
 
         private static void OutputWriteLine(string format, params object [] args)
@@ -99,6 +85,20 @@ namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
                 lock (lockobj)
                     OutputWriteLine(format, args);
             }
+        }
+
+        class Resolver : IGameResolver
+        {
+            public int MaxAttempts { get { return 100; } }
+            public int MaxMilliseconds { get { return 200000; } }
+            public int SecretValue { get { return 91; } }
+        }
+
+        class Rules : IGameRules
+        {
+            public int MaxValue { get { return 140; } }
+
+            public int MinValue { get { return 40; } }
         }
     }
 }

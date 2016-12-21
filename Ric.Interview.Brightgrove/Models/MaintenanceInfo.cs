@@ -1,24 +1,68 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Utils;
+﻿using Ric.Interview.Brightgrove.FruitBasket.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Models
 {
-    public class MaintenanceInfo : IMaintenanceInfo
+    internal class MaintenanceInfo : IMaintenanceInfo
     {
         public HashSet<int> GameGuessHistory { get; private set; }
+        private List<GuessHistoryLogRecord> GuessHistoryLog { get; set; }
 
         public MaintenanceInfo()
         {
             GameGuessHistory = new HashSet<int>();
+            GuessHistoryLog = new List<GuessHistoryLogRecord>();
         }
 
-        public void AddGuessHistoryItem(int value)
+        public void AddGuessHistoryItem(int value, Player player)
         {
+            GuessHistoryLog.Add(new GuessHistoryLogRecord(player, value));
             GameGuessHistory.Add(value);
+        }
+
+        public bool Contains(int value)
+        {
+            return GameGuessHistory.Contains(value);
+        }
+
+        public Player GetWinnerPlayer(int secretValue)
+        {
+            Player player;
+            // if there's a winner player
+            if (this.Contains(secretValue))
+            {
+                var lastRecord = GuessHistoryLog.Last();
+                if (lastRecord.GuessValue == secretValue)
+                    player = lastRecord.Player;
+                else
+                    throw new InvalidGameCompletionException("Invalid winner player");
+            }
+            else
+            {
+                // find the first closest guess player
+                var closestGuess = GuessHistoryLog.Min(e => Math.Abs(e.GuessValue - secretValue));
+                player = GuessHistoryLog.First(e => 
+                    Math.Abs(e.GuessValue - secretValue) == closestGuess).Player;
+            }
+            return player;
+        }
+
+        public int GetNumberOfAttempts(Player player)
+        {
+            return GuessHistoryLog.Count(e => e.Player.Equals(player));
+        }
+
+        private class GuessHistoryLogRecord
+        {
+            public readonly Player Player;
+            public readonly int GuessValue;
+            public GuessHistoryLogRecord(Player player, int guess)
+            {
+                Player = player;
+                GuessValue = guess;
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Ric.Interview.Brightgrove.FruitBasket.Algorythms;
 using Ric.Interview.Brightgrove.FruitBasket.Exceptions;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Factories
+namespace Ric.Interview.Brightgrove.FruitBasket.Models
 {
     public abstract partial class Player : IGuessGamePlayer
     {

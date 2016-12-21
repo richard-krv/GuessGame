@@ -10,6 +10,7 @@ using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System.Diagnostics;
 using Ric.Interview.Brightgrove.FruitBasket.Extentions;
 using System.Reflection;
+using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
 
 namespace Ric.GuessGame.Test
 {
@@ -126,7 +127,7 @@ namespace Ric.GuessGame.Test
             log.Setup(l => l.AddLogItem(It.IsAny<string>(), It.IsAny<object[]>()))
                 .Callback<string, object[]>((fmt, args) => { { Log(fmt, args); } });
 
-            var mgr = new Mock<GuessGameInlineDelayRuler>(
+            var mgr = new Mock<GuessGameInlineDelayHost>(
                 GetGameRules(),
                 GetGameResolver(),
                 PlayerFactoryParserJson.NewJsonPlayer(InputJson),
@@ -149,9 +150,11 @@ namespace Ric.GuessGame.Test
                 }
             }
 
-            Debug.WriteLine("Is cancellation requested: {0}", gr.GameState.IsCancellationRequested);
+            Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
 
-            foreach (var p in gr.game.Output.GuessHistory)
+            Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
+
+            foreach (var p in gr.GameLog.GuessHistory)
                 Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
         }
         [TestMethod]
@@ -161,7 +164,7 @@ namespace Ric.GuessGame.Test
             log.Setup(l => l.AddLogItem(It.IsAny<string>(), It.IsAny<object[]>()))
                 .Callback<string, object[]>((fmt, args) => { { Log(fmt, args); } });
 
-            var mgr = new Mock<GuessGameAwaitableFailRuler>(
+            var mgr = new Mock<GuessGameAwaitableFailHost>(
                 GetGameRules(),
                 GetGameResolver(),
                 PlayerFactoryParserJson.NewJsonPlayer(InputJson),
@@ -184,9 +187,9 @@ namespace Ric.GuessGame.Test
                 }
             }
 
-            Debug.WriteLine("Is cancellation requested: {0}", gr.GameState.IsCancellationRequested);
+            Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
 
-            foreach (var p in gr.game.Output.GuessHistory)
+            foreach (var p in gr.GameLog.GuessHistory)
                 Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
         }
     }

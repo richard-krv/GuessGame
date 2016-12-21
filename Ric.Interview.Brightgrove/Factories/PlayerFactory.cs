@@ -1,7 +1,6 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Models;
-using System;
+﻿using System;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Factories
+namespace Ric.Interview.Brightgrove.FruitBasket.Models
 {
     public abstract partial class Player
     {

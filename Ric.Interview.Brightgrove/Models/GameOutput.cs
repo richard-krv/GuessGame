@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using Ric.Interview.Brightgrove.FruitBasket.Factories;
-using System.Collections.Concurrent;
+﻿using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Models
 {
-    public class GameOutput
+    internal class GameOutput: IGameOutput
     {
-        public ConcurrentStack<KeyValuePair<Player, int>> GuessHistory { get; private set; }
+        public int SecretValue { get; private set; }
+        public Player WinnerPlayer { get; private set; }
+        public int NumberOfAttempts { get; private set; }
 
-        public GameOutput()
+        public GameOutput(IGameResolver gr, MaintenanceInfo mi)
         {
-            GuessHistory = new ConcurrentStack<KeyValuePair<Player, int>>();
+            SecretValue = gr.SecretValue;
+            WinnerPlayer = mi.GetWinnerPlayer(SecretValue);
+            NumberOfAttempts = mi.GetNumberOfAttempts(WinnerPlayer);
         }
-
-        public void Add(Player player, int guess)
-        {
-            GuessHistory.Push(new KeyValuePair<Player, int>(player, guess));
-        }
-        
     }
 }

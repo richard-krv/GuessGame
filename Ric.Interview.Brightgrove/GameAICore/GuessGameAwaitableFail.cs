@@ -1,40 +1,30 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Factories;
-using Ric.Interview.Brightgrove.FruitBasket.Utils;
+﻿using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Ric.Interview.Brightgrove.FruitBasket.Models;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Models
+namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
-    public class GuessGameAwaitableFail : IGuessGameEvents<Task>, ICancellableGame
+    internal class GuessGameAwaitableFail : GuessGameBase<Task>, IGuessGameEvents<Task>, ICancellableGame
     {
-        private IGameRules rules;
-        private IGameResolver resolver;
-        private MaintenanceInfo guessedValues;
         private CancellationToken cToken;
 
-        public GameOutput Output { get; private set; }
-        public ILogger Logger { get; private set; }
         public GuessGameAwaitableFail(IGameRules rules, IGameResolver resolver,
-            IMaintenanceInfo mi, ILogger logger)
+            IMaintenanceInfo mi, ILogger logger) : base(rules, resolver, mi, logger)
         {
-            this.rules = rules;
-            this.resolver = resolver;
-            guessedValues = mi as MaintenanceInfo;
-            Output = new GameOutput();
-            this.Logger = logger;
         }
 
         public event Action<Player, int> GuessFailed;
         public event Action<Player> GuessSucceeded;
 
-        public Task ValidateGuess(Player playerGuess)
+        public override Task ValidateGuess(Player playerGuess)
         {
             cToken.ThrowIfCancellationRequested();
 
             var guessVal = playerGuess.Guess();
-            guessedValues.AddGuessHistoryItem(guessVal);
-            Output.Add(playerGuess, guessVal);
+            guessedValues.AddGuessHistoryItem(guessVal, playerGuess);
+            GameLog.Add(playerGuess, guessVal);
             
             Logger.AddLogItem("Player {0} made a guess {1}", playerGuess.Name, guessVal);
 

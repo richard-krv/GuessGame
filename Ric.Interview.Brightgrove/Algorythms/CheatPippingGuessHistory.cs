@@ -17,7 +17,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Algorythms
             do
             {
                 guess = straightGuess();
-            } while (mi.GameGuessHistory.Contains(guess));
+            } while (mi.Contains(guess));
             return guess;
         }
     }
