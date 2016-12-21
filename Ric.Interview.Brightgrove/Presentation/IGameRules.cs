@@ -1,4 +1,4 @@
-﻿namespace Ric.Interview.Brightgrove.FruitBasket.Models
+﻿namespace Ric.Interview.Brightgrove.FruitBasket.Presentation
 {
     public interface IGameRules
     {

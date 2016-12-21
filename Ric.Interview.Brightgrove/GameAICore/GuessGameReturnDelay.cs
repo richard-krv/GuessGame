@@ -1,8 +1,9 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
+﻿using Ric.Interview.Brightgrove.FruitBasket.Models;
+using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Models
+namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
     internal class GuessGameReturnDelay : GuessGameBase<int>
     {

@@ -1,5 +1,6 @@
 ﻿using Ric.Interview.Brightgrove.FruitBasket.Factories;
 using Ric.Interview.Brightgrove.FruitBasket.Models;
+using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System.Collections.Generic;
 using System.Threading;
@@ -50,7 +51,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                 }
                 else
                 {
-                    if (spinlog)
+                    if (spinlog && players.Count == 0)
                     {
                         logger.AddLogItem("empty queue --------------------------------------");
                         spinlog = false;

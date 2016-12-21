@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Ric.Interview.Brightgrove.FruitBasket.Extentions;
 using System.Reflection;
 using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
+using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 
 namespace Ric.GuessGame.Test
 {

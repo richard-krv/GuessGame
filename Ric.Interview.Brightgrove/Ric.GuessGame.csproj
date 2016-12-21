@@ -54,6 +54,7 @@
     <Compile Include="Algorythms\CheatPippingGuessHistory.cs" />
     <Compile Include="Algorythms\ICheatingAlgorithm.cs" />
     <Compile Include="Exceptions\AllValuesGuessedException.cs" />
+    <Compile Include="Exceptions\GuessGameExceptionBase.cs" />
     <Compile Include="Exceptions\IncorrectAbstractFactorySettingsException.cs" />
     <Compile Include="Exceptions\InvalidGameCompletionException.cs" />
     <Compile Include="Extentions\PlayerExtention.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="Models\GameOutput.cs" />
     <Compile Include="GameAICore\GuessGameAwaitableFailHost.cs" />
     <Compile Include="GameAICore\GuessGameInlineDelayHost.cs" />
-    <Compile Include="GameAICore\GuessGameRulerAre.cs" />
     <Compile Include="GameAICore\GuessGameReturnDelay.cs" />
     <Compile Include="GameAICore\GuessGameAwaitableFail.cs" />
     <Compile Include="Models\GameLog.cs" />

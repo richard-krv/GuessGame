@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ric.Interview.Brightgrove.FruitBasket.Exceptions
 {
     [Serializable]
-    public class InvalidGameCompletionException : Exception
+    public class InvalidGameCompletionException : GuessGameExceptionBase
     {
         public InvalidGameCompletionException()
         {

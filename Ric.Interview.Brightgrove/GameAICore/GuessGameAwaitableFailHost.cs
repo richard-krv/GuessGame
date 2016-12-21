@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using Ric.Interview.Brightgrove.FruitBasket.Models;
 using System;
+using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
@@ -60,7 +61,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                     game.ValidateGuess(player);
                 else
                 {
-                    if (spinlog)
+                    if (spinlog && players.Count == 0)
                     {
                         logger.AddLogItem("empty queue --------------------------------------");
                         spinlog = false;

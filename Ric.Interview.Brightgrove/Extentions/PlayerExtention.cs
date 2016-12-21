@@ -1,7 +1,7 @@
 ﻿using Ric.Interview.Brightgrove.FruitBasket.Algorythms;
 using Ric.Interview.Brightgrove.FruitBasket.Factories;
 using Ric.Interview.Brightgrove.FruitBasket.Models;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
+using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;

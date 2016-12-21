@@ -1,4 +1,4 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Models;
+﻿using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 using System;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Algorythms

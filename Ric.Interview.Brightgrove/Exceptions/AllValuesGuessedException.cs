@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Exceptions
 {
     [Serializable]
-    class AllValuesGuessedException : Exception
+    public class AllValuesGuessedException : GuessGameExceptionBase
     {
         public AllValuesGuessedException()
         {
