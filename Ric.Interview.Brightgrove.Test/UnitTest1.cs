@@ -128,17 +128,24 @@ namespace Ric.GuessGame.Test
             log.Setup(l => l.AddLogItem(It.IsAny<string>(), It.IsAny<object[]>()))
                 .Callback<string, object[]>((fmt, args) => { { Log(fmt, args); } });
 
-            var mgr = new Mock<GuessGameInlineDelayHost>(
-                GetGameRules(),
-                GetGameResolver(),
-                PlayerFactoryParserJson.NewJsonPlayer(InputJson),
-                log.Object);
-
-            var gr = mgr.Object;
-
             try
             {
-                gr.StartGame();
+                using (var gr = new GuessGameInlineDelayHost(
+                    GetGameRules(),
+                    GetGameResolver(),
+                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                    log.Object))
+                {
+                    gr.StartGame();
+
+                    Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
+
+                    Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
+                    Assert.IsTrue(gr.GameLog.GuessHistory.Count > 0);
+
+                    foreach (var p in gr.GameLog.GuessHistory)
+                        Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
+                }
             }
             catch (Exception e)
             {
@@ -150,13 +157,6 @@ namespace Ric.GuessGame.Test
                     ex = ex.InnerException;
                 }
             }
-
-            Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
-
-            Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
-
-            foreach (var p in gr.GameLog.GuessHistory)
-                Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
         }
         [TestMethod]
         public void TestGameRuler_AwaitEvent()
@@ -165,17 +165,24 @@ namespace Ric.GuessGame.Test
             log.Setup(l => l.AddLogItem(It.IsAny<string>(), It.IsAny<object[]>()))
                 .Callback<string, object[]>((fmt, args) => { { Log(fmt, args); } });
 
-            var mgr = new Mock<GuessGameAwaitableFailHost>(
-                GetGameRules(),
-                GetGameResolver(),
-                PlayerFactoryParserJson.NewJsonPlayer(InputJson),
-                log.Object);
-
-            var gr = mgr.Object;
-
             try
             {
-                gr.StartGame();
+                using (var gr = new GuessGameAwaitableFailHost(
+                    GetGameRules(),
+                    GetGameResolver(),
+                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                    log.Object))
+                {
+                    gr.StartGame();
+
+                    Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
+
+                    Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
+                    Assert.IsTrue(gr.GameLog.GuessHistory.Count > 0);
+
+                    foreach (var p in gr.GameLog.GuessHistory)
+                        Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
+                }
             }
             catch (Exception e)
             {
@@ -188,10 +195,6 @@ namespace Ric.GuessGame.Test
                 }
             }
 
-            Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
-
-            foreach (var p in gr.GameLog.GuessHistory)
-                Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
         }
     }
 }
