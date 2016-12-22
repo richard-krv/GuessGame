@@ -1,5 +1,4 @@
 ﻿using Ric.Interview.Brightgrove.FruitBasket.Factories;
-using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
 using Ric.Interview.Brightgrove.FruitBasket.Models;
 using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 using Ric.Interview.Brightgrove.FruitBasket.Utils;
@@ -18,7 +17,6 @@ namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
                 { ""Name"" : ""Rick"", ""Type"" : ""ThoroughCheater"" }
             ]}";
 
-        static CancellationTokenSource ts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
         static ILogger logger;
         static void Main(string[] args)
         {
