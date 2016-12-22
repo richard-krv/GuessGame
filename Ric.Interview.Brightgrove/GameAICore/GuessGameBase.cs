@@ -24,10 +24,6 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             GameLog = new GameLog();
             this.Logger = logger;
         }
-
-        public IGameOutput GetGameOutput()
-        {
-            return new GameOutput(resolver, guessedValues);
-        }
+        
     }
 }

@@ -45,22 +45,22 @@ namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
 
         public static IGameAIHost GetInlineDelayHost()
         {
-            return new GuessGameInlineDelayHost(
-                    GetGameRules(),
-                    GetGameResolver(),
-                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
-                    logger
-                    );
+            return GameHostFactory.GetGameAIHost("InlineDelay",
+                GetGameRules(),
+                GetGameResolver(),
+                PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                logger
+                );
         }
 
         public static IGameAIHost GetAwaitableFailHost()
         {
-            return new GuessGameAwaitableFailHost(
-                    GetGameRules(),
-                    GetGameResolver(),
-                    PlayerFactoryParserJson.NewJsonPlayer(InputJson),
-                    logger
-                    );
+            return GameHostFactory.GetGameAIHost("Awaitable",
+                GetGameRules(),
+                GetGameResolver(),
+                PlayerFactoryParserJson.NewJsonPlayer(InputJson),
+                logger
+                );
         }
 
         private static IGameResolver GetGameResolver()

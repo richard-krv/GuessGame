@@ -43,9 +43,9 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
             else
             {
                 // find the first closest guess player
-                var closestGuess = GuessHistoryLog.Min(e => Math.Abs(e.GuessValue - secretValue));
+                var minDif = GuessHistoryLog.Min(e => Math.Abs(e.GuessValue - secretValue));
                 player = GuessHistoryLog.First(e => 
-                    Math.Abs(e.GuessValue - secretValue) == closestGuess).Player;
+                    Math.Abs(e.GuessValue - secretValue) == minDif).Player;
             }
             return player;
         }

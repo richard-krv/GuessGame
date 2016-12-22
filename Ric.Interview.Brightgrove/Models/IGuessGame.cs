@@ -6,6 +6,5 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
     {
         T ValidateGuess(Player playerGuess);
         GameLog GameLog { get; }
-        IGameOutput GetGameOutput();
     }
 }

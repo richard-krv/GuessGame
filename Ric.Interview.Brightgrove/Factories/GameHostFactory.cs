@@ -8,13 +8,15 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Factories
 {
     public static class GameHostFactory
     {
-        public static IGameAIHost GetGameAIHost(IGameRules gameRules, IGameResolver gameResolver,
+        public static IGameAIHost GetGameAIHost(string key, IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
         {
-            if (true)
+            var keyl = key.ToLowerInvariant();
+            if (keyl == "awaitable")
                 return new GuessGameAwaitableFailHost(gameRules, gameResolver, playersIncome, logger);
-            else 
+            else if (keyl == "inlinedelay")
                 return new GuessGameInlineDelayHost(gameRules, gameResolver, playersIncome, logger);
+            return null;
         }
     }
 }

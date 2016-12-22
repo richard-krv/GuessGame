@@ -9,7 +9,7 @@ using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
-    public class GuessGameAwaitableFailHost: GuessGameHostBase
+    internal class GuessGameAwaitableFailHost: GuessGameSpinwaitHost
     {
         internal IGuessGameEvents<Task> game { get; private set; }
 
@@ -48,27 +48,9 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             catch (OperationCanceledException) { }
         }
 
-        protected override void InitiateGameStart(CancellationToken ctoken)
+        protected override void ProcessPlayerGuess(Player player)
         {
-            var sw = new SpinWait();
-            var spinlog = true;
-            while (!ctoken.IsCancellationRequested)
-            {
-                spinlog = true;
-                ctoken.ThrowIfCancellationRequested();
-                Player player;
-                if (players.TryDequeue(out player))
-                    game.ValidateGuess(player);
-                else
-                {
-                    if (spinlog && players.Count == 0)
-                    {
-                        logger.AddLogItem("empty queue --------------------------------------");
-                        spinlog = false;
-                    }
-                    sw.SpinOnce();
-                }
-            }
+            game.ValidateGuess(player);
         }
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="Factories\GameFactory.cs" />
     <Compile Include="Factories\GameHostFactory.cs" />
     <Compile Include="GameAICore\GuessGameHostBase.cs" />
+    <Compile Include="GameAICore\GuessGameSpinwaitHost.cs" />
     <Compile Include="Models\GameOutput.cs" />
     <Compile Include="GameAICore\GuessGameAwaitableFailHost.cs" />
     <Compile Include="GameAICore\GuessGameInlineDelayHost.cs" />

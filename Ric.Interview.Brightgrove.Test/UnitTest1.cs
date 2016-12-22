@@ -45,10 +45,10 @@ namespace Ric.GuessGame.Test
         }
 
         const int MinFruits = 40;
-        const int MaxFruits = 145;
+        const int MaxFruits = 545;
         const int MaxAttempts = 100;
         const int MaxMilliseconds = 200000;
-        const int SecretValue = 91;
+        const int SecretValue = 191;
 
         public IGameResolver GetGameResolver()
         {
@@ -130,7 +130,7 @@ namespace Ric.GuessGame.Test
 
             try
             {
-                using (var gr = new GuessGameInlineDelayHost(
+                using (var gr = GameHostFactory.GetGameAIHost("InlineDelay",
                     GetGameRules(),
                     GetGameResolver(),
                     PlayerFactoryParserJson.NewJsonPlayer(InputJson),
@@ -138,24 +138,30 @@ namespace Ric.GuessGame.Test
                 {
                     gr.StartGame();
 
-                    Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
+                    Log("Is cancellation requested: {0}", gr.IsCancellationRequested);
 
                     Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
                     Assert.IsTrue(gr.GameLog.GuessHistory.Count > 0);
 
+                    var go = gr.GameOutput;
+                    Log("Winner player {0}", go.WinnerPlayer.Name);
+                    Log("Number of attempts {0}", go.NumberOfAttempts);
+                    Log("Secret value {0}", go.SecretValue);
+
                     foreach (var p in gr.GameLog.GuessHistory)
-                        Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
+                        Log("Game log: {0}, guess {1}", p.Key.Name, p.Value);
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message, e.StackTrace);
+                Log(e.Message, e.StackTrace);
                 var ex = e.InnerException;
                 while (ex != null)
                 {
-                    Debug.WriteLine(ex.Message, ex.StackTrace);
+                    Log(ex.Message, ex.StackTrace);
                     ex = ex.InnerException;
                 }
+                Assert.Fail();
             }
         }
         [TestMethod]
@@ -167,7 +173,7 @@ namespace Ric.GuessGame.Test
 
             try
             {
-                using (var gr = new GuessGameAwaitableFailHost(
+                using (var gr = GameHostFactory.GetGameAIHost("awaitable",
                     GetGameRules(),
                     GetGameResolver(),
                     PlayerFactoryParserJson.NewJsonPlayer(InputJson),
@@ -175,24 +181,30 @@ namespace Ric.GuessGame.Test
                 {
                     gr.StartGame();
 
-                    Debug.WriteLine("Is cancellation requested: {0}", gr.IsCancellationRequested);
+                    Log("Is cancellation requested: {0}", gr.IsCancellationRequested);
 
                     Assert.IsTrue(gr.GameLog.GuessHistory.Count <= MaxAttempts);
                     Assert.IsTrue(gr.GameLog.GuessHistory.Count > 0);
 
+                    var go = gr.GameOutput;
+                    Log("Winner player {0}", go.WinnerPlayer.Name);
+                    Log("Number of attempts {0}", go.NumberOfAttempts);
+                    Log("Secret value {0}", go.SecretValue);
+
                     foreach (var p in gr.GameLog.GuessHistory)
-                        Debug.WriteLine("Output: {0}, guess {1}", p.Key.Name, p.Value);
+                        Log("Game log: {0}, guess {1}", p.Key.Name, p.Value);
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message, e.StackTrace);
+                Log(e.Message, e.StackTrace);
                 var ex = e.InnerException;
                 while (ex != null)
                 {
-                    Debug.WriteLine(ex.Message, ex.StackTrace);
+                    Log(ex.Message, ex.StackTrace);
                     ex = ex.InnerException;
                 }
+                Assert.Fail();
             }
 
         }

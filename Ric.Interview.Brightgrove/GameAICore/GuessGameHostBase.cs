@@ -16,14 +16,16 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 
         protected readonly ILogger logger;
         internal protected IMaintenanceInfo mi = new MaintenanceInfo();
+        internal protected IGameResolver resolver;
 
         public bool IsCancellationRequested { get { return ctSrc.Token.IsCancellationRequested; } }
         public abstract GameLog GameLog { get; }
-
+        public IGameOutput GameOutput { get; private set; }
         public GuessGameHostBase(IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
         {
             this.logger = logger;
+            this.resolver = gameResolver;
 
             // init players
             this.players = playersIncome.ToConcurrentQueue(gameRules, gameResolver, mi);
@@ -31,6 +33,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             // devise a game finish condition
             ctSrc = new CancellationTokenSource(gameResolver.MaxMilliseconds);
             ctSrc.Token.Register(CancellationRoutine);
+
+            GameOutput = new GameOutput(gameResolver, mi);
         }
 
         private void CancellationRoutine()
@@ -50,8 +54,12 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             {
                 logger.AddLogItem("Aggregate exception has occured {0}, {1}, count: {2}",
                     aex.Message, aex.StackTrace, aex.InnerExceptions.Count);
-                foreach (var e in aex.InnerExceptions)
+                aex.Flatten().Handle(e =>
+                {
+                    if(!(e is OperationCanceledException))
                     logger.AddLogItem(e.Message, e.StackTrace);
+                    return true;
+                });
             }
             catch (OperationCanceledException)
             {
@@ -68,6 +76,11 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
         public void Dispose()
         {
             ctSrc.Dispose();
+        }
+
+        public IGameOutput GetGameOutput()
+        {
+            return GameOutput;
         }
     }
 }
