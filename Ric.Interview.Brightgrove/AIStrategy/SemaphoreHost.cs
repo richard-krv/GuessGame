@@ -39,12 +39,24 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                 logger.AddLogItem("Player {0} returning back to the game. Players {1}", p.Name, players.Count);
                 players.Enqueue(p);
 
-                logger.AddLogItem("Releasing semaphore -------");
-                sem.Release();
+                //avoiding empty release cycles with the lock
+                if (players.Count <= 1)
+                {
+                    lock (lockobj)
+                    {
+                        if (players.Count <= 1)
+                        {
+                            logger.AddLogItem("Releasing semaphore -------");
+                            sem.Release();
+                        }
+                    }
+                }
             }
             catch (OperationCanceledException) { }
         }
-        
+
+        private object lockobj = new object();
+
         protected override void InitiateGameStart(CancellationToken token)
         {
             while (!token.IsCancellationRequested && GameLog.GuessHistory.Count < resolver.MaxAttempts)
@@ -68,8 +80,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 
         public override void Dispose()
         {
-            base.Dispose();
             sem.Dispose();
+            base.Dispose();
         }
     }
 }
