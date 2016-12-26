@@ -11,16 +11,17 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
     public abstract class GuessGameHostBase: IGameAIHost
     {
-        protected ConcurrentQueue<Player> players;
-        protected CancellationTokenSource ctSrc;
+        protected readonly ConcurrentQueue<Player> players;
+        protected readonly CancellationTokenSource ctSrc;
 
         protected readonly ILogger logger;
         internal protected IMaintenanceInfo mi = new MaintenanceInfo();
-        internal protected IGameResolver resolver;
+        internal readonly protected IGameResolver resolver;
 
         public bool IsCancellationRequested { get { return ctSrc.Token.IsCancellationRequested; } }
         public abstract GameLog GameLog { get; }
         public IGameOutput GameOutput { get; private set; }
+
         public GuessGameHostBase(IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
         {
@@ -34,6 +35,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             ctSrc = new CancellationTokenSource(gameResolver.MaxMilliseconds);
             ctSrc.Token.Register(CancellationRoutine);
 
+            //come up with some output
             GameOutput = new GameOutput(gameResolver, mi);
         }
 
@@ -56,8 +58,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                     aex.Message, aex.StackTrace, aex.InnerExceptions.Count);
                 aex.Flatten().Handle(e =>
                 {
-                    if(!(e is OperationCanceledException))
-                    logger.AddLogItem(e.Message, e.StackTrace);
+                    if (!(e is OperationCanceledException))
+                        logger.AddLogItem(e.Message, e.StackTrace);
                     return true;
                 });
             }
@@ -73,7 +75,9 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 
         protected abstract void InitiateGameStart(CancellationToken token);
 
-        public void Dispose()
+        //simplified dispose pattern
+        //subclasses should override and call base dispose
+        public virtual void Dispose()
         {
             ctSrc.Dispose();
         }

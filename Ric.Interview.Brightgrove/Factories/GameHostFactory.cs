@@ -13,9 +13,11 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Factories
         {
             var keyl = key.ToLowerInvariant();
             if (keyl == "awaitable")
-                return new GuessGameAwaitableFailHost(gameRules, gameResolver, playersIncome, logger);
+                return new AwaitableFailHost(gameRules, gameResolver, playersIncome, logger);
             else if (keyl == "inlinedelay")
-                return new GuessGameInlineDelayHost(gameRules, gameResolver, playersIncome, logger);
+                return new InlineDelayHost(gameRules, gameResolver, playersIncome, logger);
+            else if (keyl == "semaphore")
+                return new SemaphoreHost(gameRules, gameResolver, playersIncome, logger);
             return null;
         }
     }

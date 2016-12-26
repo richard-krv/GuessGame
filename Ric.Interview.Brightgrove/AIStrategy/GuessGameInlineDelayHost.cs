@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
-    internal class GuessGameInlineDelayHost : GuessGameSpinwaitHost
+    internal class InlineDelayHost : GuessGameSpinwaitHost
     {
         internal IGuessGame<int> game { get; private set; }
         public override GameLog GameLog { get { return game.GameLog; } }
 
-        public GuessGameInlineDelayHost(IGameRules gameRules, IGameResolver gameResolver,
+        public InlineDelayHost(IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
                 : base(gameRules, gameResolver, playersIncome, logger)
         {

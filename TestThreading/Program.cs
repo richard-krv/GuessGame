@@ -18,7 +18,7 @@ namespace TestThreading
             }
             catch(Exception ex)
             {
-
+                Console.WriteLine("{0} {1}", ex.Message, ex.StackTrace);
             }
             finally
             {
@@ -31,45 +31,43 @@ namespace TestThreading
         const int GameTimeout = 10000;
         static void test4()
         {
+            var mp = 50;
             players = new ConcurrentQueue<Tuple<int, string>>()
             {
-                new Tuple<int, string>(4, "thread 1"),
-                new Tuple<int, string>(6, "thread 2"),
-                new Tuple<int, string>(4, "thread 3"),
-                new Tuple<int, string>(2, "thread 4"),
-                new Tuple<int, string>(1, "thread 5"),
+                new Tuple<int, string>(4*mp, "thread-A"),
+                new Tuple<int, string>(1*mp, "thread-B"),
+                new Tuple<int, string>(4*mp, "thread-C"),
+                new Tuple<int, string>(2*mp, "thread-D"),
+                new Tuple<int, string>(1*mp, "thread-E"),
             };
 
             var cts = new CancellationTokenSource(GameTimeout);
 
-            var sw = new SpinWait();
-            var waitwrite = true;
-            while (true)
+            var sm = new Semaphore(0,players.Count);
+            while (!cts.IsCancellationRequested)
             {
-                cts.Token.ThrowIfCancellationRequested();
                 Tuple<int, string> p;
                 if (players.TryDequeue(out p))
                 {
                     Console.WriteLine("Players count {0}", players.Count);
-                    waitwrite = true;
-                    DoSynchWork(800, p.Item2);
-                    Task.Factory.StartNew(() => GetDelay(p, cts.Token), cts.Token);
+                    DoSynchWork(8 * mp, p.Item2);
+                    Task.Run(async delegate
+                    {
+                        await GetDelay(p, cts.Token);
+                        sm.Release();
+                    }, cts.Token);
                 }
                 else
                 {
-                    if (waitwrite)
-                    {
-                        Console.WriteLine("Queue is empty - spinning--------------");
-                        waitwrite = false;
-                    }
-                    sw.SpinOnce();
+                    Console.WriteLine("Queue is empty - waiting --------------");
+                    sm.WaitOne();
                 }
             }
         }
         static Task GetDelay(Tuple<int, string> p, CancellationToken ct)
         {
             Console.WriteLine("Task {0} delay starting", p.Item2);
-            return Task.Delay(TimeSpan.FromSeconds(p.Item1), ct).ContinueWith(t =>
+            return Task.Delay(p.Item1, ct).ContinueWith(t =>
             {
                 players.Enqueue(p);
                 Console.WriteLine("Task {0} delay completed - player back to play", p.Item2);

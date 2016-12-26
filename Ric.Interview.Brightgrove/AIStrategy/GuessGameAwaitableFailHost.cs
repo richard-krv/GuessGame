@@ -9,13 +9,13 @@ using Ric.Interview.Brightgrove.FruitBasket.Presentation;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
-    internal class GuessGameAwaitableFailHost: GuessGameSpinwaitHost
+    internal class AwaitableFailHost: GuessGameSpinwaitHost
     {
         internal IGuessGameEvents<Task> game { get; private set; }
 
         public override GameLog GameLog { get { return game.GameLog; } }
 
-        public GuessGameAwaitableFailHost(IGameRules gameRules, IGameResolver gameResolver,
+        public AwaitableFailHost(IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
                 : base(gameRules, gameResolver, playersIncome, logger)
         {
