@@ -10,14 +10,13 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
     {
         public HashSet<int> GameGuessHistory { get; private set; }
         private List<GuessHistoryLogRecord> GuessHistoryLog { get; set; }
-
         public MaintenanceInfo()
         {
             GameGuessHistory = new HashSet<int>();
             GuessHistoryLog = new List<GuessHistoryLogRecord>();
         }
 
-        public void AddGuessHistoryItem(int value, Player player)
+        public void AddGuessHistoryItem(int value, IGuessGamePlayer player)
         {
             GuessHistoryLog.Add(new GuessHistoryLogRecord(player, value));
             GameGuessHistory.Add(value);
@@ -28,15 +27,25 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
             return GameGuessHistory.Contains(value);
         }
 
-        public Player GetWinnerPlayer(int secretValue)
+        public IGameOutput GetGameOutput(int secretValue)
         {
-            Player player;
-            // if there's a winner player
+            var winlogrec = GetWinnerLogRecord(secretValue);
+
+            return new GameOutput(
+                secretValue,
+                winlogrec.Player,
+                winlogrec.GuessValue,
+                GetNumberOfAttempts(winlogrec.Player));
+        }
+
+        private GuessHistoryLogRecord GetWinnerLogRecord(int secretValue)
+        {
+            // if there's a clear winner player
             if (this.Contains(secretValue))
             {
                 var lastRecord = GuessHistoryLog.Last();
                 if (lastRecord.GuessValue == secretValue)
-                    player = lastRecord.Player;
+                    return lastRecord;
                 else
                     throw new InvalidGameCompletionException("Invalid winner player");
             }
@@ -44,22 +53,21 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
             {
                 // find the first closest guess player
                 var minDif = GuessHistoryLog.Min(e => Math.Abs(e.GuessValue - secretValue));
-                player = GuessHistoryLog.First(e => 
-                    Math.Abs(e.GuessValue - secretValue) == minDif).Player;
+                return GuessHistoryLog.First(e => 
+                    Math.Abs(e.GuessValue - secretValue) == minDif);
             }
-            return player;
         }
 
-        public int GetNumberOfAttempts(Player player)
+        private int GetNumberOfAttempts(IGuessGamePlayer player)
         {
             return GuessHistoryLog.Count(e => e.Player.Equals(player));
         }
 
         private class GuessHistoryLogRecord
         {
-            public readonly Player Player;
+            public readonly IGuessGamePlayer Player;
             public readonly int GuessValue;
-            public GuessHistoryLogRecord(Player player, int guess)
+            public GuessHistoryLogRecord(IGuessGamePlayer player, int guess)
             {
                 Player = player;
                 GuessValue = guess;

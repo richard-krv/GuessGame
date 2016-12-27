@@ -6,8 +6,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
     public interface IGameAIHost : IDisposable
     {
         IGameOutput GameOutput { get; }
-        GameLog GameLog { get; }
         void StartGame();
-        bool IsCancellationRequested { get; }
+        int TotalAttemptsCount { get; }
     }
 }

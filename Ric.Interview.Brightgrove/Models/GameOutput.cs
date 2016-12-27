@@ -5,14 +5,16 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
     internal class GameOutput: IGameOutput
     {
         public int SecretValue { get; private set; }
-        public Player WinnerPlayer { get { return mi.GetWinnerPlayer(SecretValue); } }
-        public int NumberOfAttempts { get { return mi.GetNumberOfAttempts(WinnerPlayer); } }
-        private MaintenanceInfo mi;
+        public IGuessGamePlayer WinnerPlayer { get; private set; }
+        public int WinnersBestGuess { get; private set; }
+        public int NumberOfAttempts { get; private set; }
 
-        public GameOutput(IGameResolver gr, IMaintenanceInfo minfo)
+        public GameOutput(int secretVal, IGuessGamePlayer winnerPlayer, int winnerNumber, int numberOfAttempts)
         {
-            SecretValue = gr.SecretValue;
-            mi = minfo as MaintenanceInfo;
+            SecretValue = secretVal;
+            WinnerPlayer = winnerPlayer;
+            WinnersBestGuess = winnerNumber;
+            NumberOfAttempts = numberOfAttempts;
         }
     }
 }

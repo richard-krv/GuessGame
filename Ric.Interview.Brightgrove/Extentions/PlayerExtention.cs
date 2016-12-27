@@ -10,7 +10,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Extentions
 {
     public static class PlayerExtention
     {
-        public static ConcurrentQueue<Player> ToConcurrentQueue(
+        public static ConcurrentQueue<IGuessGamePlayer> ToConcurrentQueue(
             this IEnumerable<IParserPlayer> playersIncome, IGameRules gameRules,
             IGameResolver gameResolver, IMaintenanceInfo mi)
         {
@@ -22,14 +22,14 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Extentions
             var chalg = new CheatPippingGuessHistory(mi);
             var chPlayers = players.InitCheaters(chalg);
 
-            var thisplayers = new ConcurrentQueue<Player>();
+            var thisplayers = new ConcurrentQueue<IGuessGamePlayer>();
             foreach (var p in chPlayers)
                 thisplayers.Enqueue(p);
 
             return thisplayers;
         }
 
-        public static IEnumerable<Player> InitCheaters(this IEnumerable<Player> players,
+        public static IEnumerable<IGuessGamePlayer> InitCheaters(this IEnumerable<IGuessGamePlayer> players,
             ICheatingAlgorithm chalg)
         {
             return players.Select(p => CheaterPlayerFactory

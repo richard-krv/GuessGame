@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Exceptions
 {
-    public class GuessGameExceptionBase : Exception
+    public abstract class GuessGameExceptionBase : Exception
     {
         public GuessGameExceptionBase()
         {
