@@ -47,8 +47,8 @@ namespace Ric.GuessGame.Test
         const int MinFruits = 40;
         const int MaxFruits = 1040;
         const int MaxAttempts = 100;
-        const int MaxMilliseconds = 5000;
-        const int SecretValue = 91;
+        const int MaxMilliseconds = 250000;
+        const int SecretValue = 910;
 
         public IGameResolver GetGameResolver()
         {
@@ -97,15 +97,26 @@ namespace Ric.GuessGame.Test
             Debug.WriteLine(t + format, args);
         }
         [TestMethod]
+        public void GameOutputTest()
+        {
+            var mi = new MaintenanceInfo();
+            var plJohn = new Mock<IGuessGamePlayer>();
+            plJohn.SetupGet(p => p.Name).Returns("John");
+            var plWill = new Mock<IGuessGamePlayer>();
+            plWill.SetupGet(p => p.Name).Returns("Will");
+            mi.AddGuessHistoryItem(80, plJohn.Object);
+            mi.AddGuessHistoryItem(90, plWill.Object);
+            var gameOutput = mi.GetGameOutput(91);
+            Assert.AreEqual(90, gameOutput.WinnersBestGuess);
+            Assert.AreEqual("Will", gameOutput.WinnerPlayer.Name);
+            Assert.AreEqual(91, gameOutput.SecretValue);
+            Assert.AreEqual(1, gameOutput.NumberOfAttempts);
+        }
+        [TestMethod]
         public void TestCheatersCreation()
         {
-            var guessHistory = new HashSet<int>();
-            guessHistory.Add(40);
-
-            var mi = new Mock<IMaintenanceInfo>();
-            mi.SetupGet(m => m.GameGuessHistory).Returns(guessHistory);
-            var chalg = new CheatPippingGuessHistory(mi.Object);
-
+            var mimoq = new Mock<IMaintenanceInfo>();
+            var chalg = new CheatPippingGuessHistory(mimoq.Object);
             var players = GetPlayers();
             var chplayers = players.InitCheaters(chalg);
             Assert.AreEqual(5, chplayers.Count());

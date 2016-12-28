@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.Models
 {
-    internal class MaintenanceInfo : IMaintenanceInfo
+    public class MaintenanceInfo : IMaintenanceInfo
     {
-        public HashSet<int> GameGuessHistory { get; private set; }
+        private HashSet<int> GameGuessHistory { get; set; } //doesn't contain duplicates
         private List<GuessHistoryLogRecord> GuessHistoryLog { get; set; }
         public MaintenanceInfo()
         {
@@ -21,6 +21,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
             GuessHistoryLog.Add(new GuessHistoryLogRecord(player, value));
             GameGuessHistory.Add(value);
         }
+
+        public int TotalAttemptsCount { get { return GuessHistoryLog.Count; } }
 
         public bool Contains(int value)
         {
@@ -51,10 +53,10 @@ namespace Ric.Interview.Brightgrove.FruitBasket.Models
             }
             else
             {
+                // find minimal difference between the target value and the guess history
+                var minDif = GameGuessHistory.Min(GuessValue => Math.Abs(GuessValue - secretValue));
                 // find the first closest guess player
-                var minDif = GuessHistoryLog.Min(e => Math.Abs(e.GuessValue - secretValue));
-                return GuessHistoryLog.First(e => 
-                    Math.Abs(e.GuessValue - secretValue) == minDif);
+                return GuessHistoryLog.First(e => Math.Abs(e.GuessValue - secretValue) == minDif);
             }
         }
 

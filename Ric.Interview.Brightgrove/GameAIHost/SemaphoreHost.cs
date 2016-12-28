@@ -12,15 +12,16 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
     public class SemaphoreHost : IGameAIHost
     {
-        protected readonly ConcurrentQueue<IGuessGamePlayer> players;
-        protected readonly CancellationTokenSource ctSrc;
+        private readonly ConcurrentQueue<IGuessGamePlayer> players;
+        private readonly CancellationTokenSource ctSrc;
+        private readonly CancellationTokenRegistration reg;
 
         public ILogger Logger { get; private set; }
 
-        private IMaintenanceInfo mi = new MaintenanceInfo();
+        private readonly IMaintenanceInfo mi = new MaintenanceInfo();
         private readonly IGameResolver resolver;
 
-        public int TotalAttemptsCount { get { return mi.GameGuessHistory.Count; } }
+        public int TotalAttemptsCount { get { return mi.TotalAttemptsCount; } }
 
         public IGameOutput GameOutput { get { return mi.GetGameOutput(resolver.SecretValue); } }
 
@@ -29,8 +30,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
         private SemaphoreHost(IGameRules gameRules, IGameResolver gameResolver,
             IEnumerable<IParserPlayer> playersIncome, ILogger logger)
         {
-            this.Logger = logger;
-            this.resolver = gameResolver;
+            Logger = logger;
+            resolver = gameResolver;
 
             // init players
             this.players = playersIncome.ToConcurrentQueue(gameRules, gameResolver, mi);
@@ -51,7 +52,8 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
         {
             try
             {
-                while (!token.IsCancellationRequested && mi.GameGuessHistory.Count < resolver.MaxAttempts)
+                Logger.AddLogItem("Starting the game");
+                while (!token.IsCancellationRequested && mi.TotalAttemptsCount < resolver.MaxAttempts)
                 {
                     IGuessGamePlayer player;
                     if (players.TryDequeue(out player))
@@ -70,6 +72,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                             Task.Run(async delegate
                             {
                                 await ApplyPenalty(penalty, player);
+                                token.ThrowIfCancellationRequested();
                                 players.Enqueue(player);
                                 Logger.AddLogItem("Player {0} returning back to the game. Players {1}", player.Name, players.Count);
                                 ReleaseMainThread();
@@ -77,7 +80,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                     }
                     else
                     {
-                        Logger.AddLogItem("Empty queue - freezing the main thread --------------------- {0}", players.Count);
+                        Logger.AddLogItem("Empty queue - freezing the main thread ---------------------");
                         if (Interlocked.CompareExchange(ref IsSemaphoreWaiting, 1, 0) == 0)
                             sem.Wait(token);
                         Logger.AddLogItem("Semaphore released -------- {0}", players.Count);
@@ -85,11 +88,16 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                 }
             }
             catch(OperationCanceledException) { }
+            finally
+            {
+                Logger.AddLogItem("Game over");
+            }
         }
         private async Task ApplyPenalty(int penaltyMilliseconds, IGuessGamePlayer player)
         {
+            token.ThrowIfCancellationRequested();
             Logger.AddLogItem("Player {0} starts waiting.", player.Name);
-            await Task.Delay(penaltyMilliseconds, ctSrc.Token);
+            await Task.Delay(penaltyMilliseconds, token);
         }
         // a player should be returned back to the queue before releasing the main thread
         private void ReleaseMainThread()
@@ -104,6 +112,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
         public  void Dispose()
         {
             sem.Dispose();
+            reg.Dispose();
             ctSrc.Dispose();
         }
 
