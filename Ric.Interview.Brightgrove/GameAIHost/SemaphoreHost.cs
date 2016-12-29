@@ -87,7 +87,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                     }
                 }
             }
-            catch(OperationCanceledException) { }
+            catch (OperationCanceledException) { }
             finally
             {
                 Logger.AddLogItem("Game over");
@@ -109,7 +109,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
             }
         }
         private volatile int IsSemaphoreWaiting = 0;
-        public  void Dispose()
+        public void Dispose()
         {
             sem.Dispose();
             reg.Dispose();
