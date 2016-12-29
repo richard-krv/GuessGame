@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ric.Interview.Brightgrove\Ric.GuessGame.csproj">
+    <ProjectReference Include="..\Ric.GuessGame\Ric.GuessGame.csproj">
       <Project>{71406404-8c5f-420c-961a-dd430622c949}</Project>
       <Name>Ric.GuessGame</Name>
     </ProjectReference>

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame", "Ric.Interview.Brightgrove\Ric.GuessGame.csproj", "{71406404-8C5F-420C-961A-DD430622C949}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame", "Ric.GuessGame\Ric.GuessGame.csproj", "{71406404-8C5F-420C-961A-DD430622C949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame.Test", "Ric.Interview.Brightgrove.Test\Ric.GuessGame.Test.csproj", "{C6253F23-470C-4DB2-93AE-B82BC1C4B00F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame.Test", "Ric.GuessGame.Test\Ric.GuessGame.Test.csproj", "{C6253F23-470C-4DB2-93AE-B82BC1C4B00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame.PresenterConsole", "Ric.Interview.Brightgrove.FruitBasket.PresenterConsole\Ric.GuessGame.PresenterConsole.csproj", "{B46F39EB-419B-4D86-BC37-0F130C96B59B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ric.GuessGame.PresenterConsole", "Ric.GuessGame.PresenterConsole\Ric.GuessGame.PresenterConsole.csproj", "{B46F39EB-419B-4D86-BC37-0F130C96B59B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestThreading", "TestThreading\TestThreading.csproj", "{01E55FBD-C6FB-4A27-8665-924972FB856F}"
 EndProject
