@@ -1,4 +1,4 @@
-﻿namespace Ric.Interview.Brightgrove.FruitBasket.Presentation
+﻿namespace Ric.GuessGame.Presentation
 {
     public interface IGameResolver
     {

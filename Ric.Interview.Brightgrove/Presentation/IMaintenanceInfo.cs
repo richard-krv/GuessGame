@@ -1,7 +1,6 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Models;
-using System.Collections.Generic;
+﻿using Ric.GuessGame.Models;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Presentation
+namespace Ric.GuessGame.Presentation
 {
     public interface IMaintenanceInfo
     {

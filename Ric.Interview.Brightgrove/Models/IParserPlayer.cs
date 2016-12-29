@@ -1,4 +1,4 @@
-﻿namespace Ric.Interview.Brightgrove.FruitBasket.Models
+﻿namespace Ric.GuessGame.Models
 {
     public interface IParserPlayer
     {

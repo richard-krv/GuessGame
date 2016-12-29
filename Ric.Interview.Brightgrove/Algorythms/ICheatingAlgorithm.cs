@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Algorythms
+namespace Ric.GuessGame.Algorythms
 {
     public interface ICheatingAlgorithm
     {

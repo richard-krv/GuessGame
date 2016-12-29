@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
+using Ric.GuessGame.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Factories
+namespace Ric.GuessGame.Factories
 {
     public sealed class PlayerFactoryParserJson
     {

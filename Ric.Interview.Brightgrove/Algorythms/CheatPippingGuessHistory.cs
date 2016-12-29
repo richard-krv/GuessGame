@@ -1,7 +1,7 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Presentation;
+﻿using Ric.GuessGame.Presentation;
 using System;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Algorythms
+namespace Ric.GuessGame.Algorythms
 {
     public class CheatPippingGuessHistory: ICheatingAlgorithm
     {

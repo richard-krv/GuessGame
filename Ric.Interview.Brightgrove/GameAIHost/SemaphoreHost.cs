@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
-using Ric.Interview.Brightgrove.FruitBasket.Presentation;
-using Ric.Interview.Brightgrove.FruitBasket.Utils;
+using Ric.GuessGame.Models;
+using Ric.GuessGame.Presentation;
+using Ric.GuessGame.Utils;
 using System.Collections.Concurrent;
-using Ric.Interview.Brightgrove.FruitBasket.Extentions;
+using Ric.GuessGame.Extentions;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
+namespace Ric.GuessGame.GameAICore
 {
     internal class SemaphoreHost : IGameAIHost
     {

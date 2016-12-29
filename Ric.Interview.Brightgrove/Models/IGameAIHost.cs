@@ -1,7 +1,7 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Presentation;
+﻿using Ric.GuessGame.Presentation;
 using System;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Models
+namespace Ric.GuessGame.Models
 {
     public interface IGameAIHost : IDisposable
     {

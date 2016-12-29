@@ -1,11 +1,10 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Factories;
-using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
-using Ric.Interview.Brightgrove.FruitBasket.Presentation;
-using Ric.Interview.Brightgrove.FruitBasket.Utils;
+﻿using Ric.GuessGame.Factories;
+using Ric.GuessGame.Models;
+using Ric.GuessGame.Presentation;
+using Ric.GuessGame.Utils;
 using System;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
+namespace Ric.GuessGame.PresenterConsole
 {
     class Program
     {
@@ -41,7 +40,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.PresenterConsole
 
         public static IGameAIHost GetGameHost()
         {
-            return SemaphoreHost.GetGameHost(
+            return GameHostFactory.GetGameHost(
                 GetGameRules(),
                 GetGameResolver(),
                 PlayerFactoryParserJson.NewJsonPlayer(InputJson),

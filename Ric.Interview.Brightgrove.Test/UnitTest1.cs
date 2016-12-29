@@ -1,17 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Ric.Interview.Brightgrove.FruitBasket.Factories;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
+using Ric.GuessGame.Factories;
+using Ric.GuessGame.Models;
 using Moq;
 using System.Linq;
-using Ric.Interview.Brightgrove.FruitBasket.Algorythms;
-using Ric.Interview.Brightgrove.FruitBasket.Utils;
+using Ric.GuessGame.Algorythms;
+using Ric.GuessGame.Utils;
 using System.Diagnostics;
-using Ric.Interview.Brightgrove.FruitBasket.Extentions;
+using Ric.GuessGame.Extentions;
 using System.Reflection;
-using Ric.Interview.Brightgrove.FruitBasket.Presentation;
-using Ric.GuessGame.Factories;
+using Ric.GuessGame.Presentation;
 
 namespace Ric.GuessGame.Test
 {

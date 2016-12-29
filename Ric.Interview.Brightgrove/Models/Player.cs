@@ -1,10 +1,10 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Algorythms;
-using Ric.Interview.Brightgrove.FruitBasket.Exceptions;
-using Ric.Interview.Brightgrove.FruitBasket.Presentation;
+﻿using Ric.GuessGame.Algorythms;
+using Ric.GuessGame.Exceptions;
+using Ric.GuessGame.Presentation;
 using System;
 using System.Collections.Generic;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Models
+namespace Ric.GuessGame.Models
 {
     public abstract partial class Player : IGuessGamePlayer
     {

@@ -1,6 +1,6 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Presentation;
+﻿using Ric.GuessGame.Presentation;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Models
+namespace Ric.GuessGame.Models
 {
     internal class GameOutput: IGameOutput
     {

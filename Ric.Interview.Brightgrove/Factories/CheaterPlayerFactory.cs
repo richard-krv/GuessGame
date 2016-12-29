@@ -1,8 +1,8 @@
-﻿using Ric.Interview.Brightgrove.FruitBasket.Algorythms;
-using Ric.Interview.Brightgrove.FruitBasket.Models;
+﻿using Ric.GuessGame.Algorythms;
+using Ric.GuessGame.Models;
 using System.Reflection;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Factories
+namespace Ric.GuessGame.Factories
 {
     public sealed class CheaterPlayerFactory
     {

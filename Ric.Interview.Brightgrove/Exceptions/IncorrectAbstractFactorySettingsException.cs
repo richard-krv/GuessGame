@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Ric.Interview.Brightgrove.FruitBasket.Exceptions
+namespace Ric.GuessGame.Exceptions
 {
     [Serializable]
     public class IncorrectAbstractFactorySettingsException : GuessGameExceptionBase
