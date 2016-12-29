@@ -108,7 +108,7 @@ namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
                 sem.Release();
             }
         }
-        private int IsSemaphoreWaiting = 0;
+        private volatile int IsSemaphoreWaiting = 0;
         public  void Dispose()
         {
             sem.Dispose();
