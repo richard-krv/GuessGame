@@ -10,8 +10,8 @@ using Ric.Interview.Brightgrove.FruitBasket.Utils;
 using System.Diagnostics;
 using Ric.Interview.Brightgrove.FruitBasket.Extentions;
 using System.Reflection;
-using Ric.Interview.Brightgrove.FruitBasket.GameAICore;
 using Ric.Interview.Brightgrove.FruitBasket.Presentation;
+using Ric.GuessGame.Factories;
 
 namespace Ric.GuessGame.Test
 {
@@ -141,7 +141,7 @@ namespace Ric.GuessGame.Test
 
             try
             {
-                using (var gr = SemaphoreHost.GetGameHost(
+                using (var gr = GameHostFactory.GetGameHost(
                     GetGameRules(),
                     GetGameResolver(),
                     PlayerFactoryParserJson.NewJsonPlayer(InputJson),

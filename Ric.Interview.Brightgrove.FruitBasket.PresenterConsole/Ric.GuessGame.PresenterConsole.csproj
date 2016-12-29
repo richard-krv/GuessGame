@@ -7,8 +7,8 @@
     <ProjectGuid>{B46F39EB-419B-4D86-BC37-0F130C96B59B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ric.Interview.Brightgrove.FruitBasket.PresenterConsole</RootNamespace>
-    <AssemblyName>Ric.Interview.Brightgrove.FruitBasket.PresenterConsole</AssemblyName>
+    <RootNamespace>Ric.GuessGame.PresenterConsole</RootNamespace>
+    <AssemblyName>Ric.GuessGame.PresenterConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

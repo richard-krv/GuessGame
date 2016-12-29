@@ -10,7 +10,7 @@ using Ric.Interview.Brightgrove.FruitBasket.Extentions;
 
 namespace Ric.Interview.Brightgrove.FruitBasket.GameAICore
 {
-    public class SemaphoreHost : IGameAIHost
+    internal class SemaphoreHost : IGameAIHost
     {
         private readonly ConcurrentQueue<IGuessGamePlayer> players;
         private readonly CancellationTokenSource ctSrc;
